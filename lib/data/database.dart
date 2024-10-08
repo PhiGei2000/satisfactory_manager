@@ -129,4 +129,18 @@ class FactoryDatabase extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> removeItems(String factoryName, Iterable<Item> itemsToRemove) async {
+    final itemIDs = itemsToRemove.map<ItemID>((item) => item.item);
+
+    final batch = await _database.then<Batch>((db) => db.batch());
+    for (final itemID in itemIDs) {
+      batch.delete("FactoryItems", where: "itemID = ? AND factory = ?", whereArgs: [itemID.index, factoryName]);
+    }
+
+    await batch.commit(noResult: true, continueOnError: true);
+
+    getFactory(factoryName)!.items.removeWhere((key, value) => itemIDs.contains(key));
+    notifyListeners();
+  }
 }

@@ -8,8 +8,9 @@ import '../screens/factoryScreen.dart';
 
 class FactoryList extends StatelessWidget {
   final void Function(String) onFactorySelected;
+  final void Function(String) onRemoveFactory;
 
-  const FactoryList(this.onFactorySelected, {super.key});
+  const FactoryList(this.onFactorySelected, this.onRemoveFactory, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,15 @@ class FactoryList extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.symmetric(vertical: 5),
-              color: colorScheme.primary,
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(
+              color: colorScheme.surface,
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Expanded(
+                    child: Text(
                   factories[index].name,
-                  style: TextStyle(color: colorScheme.onPrimary),
-                ),
+                )),
                 IconButton(
                     onPressed: () => renameFactory(context, factories[index].name), icon: const Icon(Icons.edit)),
+                IconButton(onPressed: () => removeFactory(context, factories[index]), icon: const Icon(Icons.delete))
               ]),
             ),
             onTap: () => onFactorySelected(factories[index].name),
@@ -68,6 +70,26 @@ class FactoryList extends StatelessWidget {
 
     if (context.mounted) {
       Provider.of<FactoryDatabase>(context, listen: false).renameFactory(factoryName, newName);
+    }
+  }
+
+  void removeFactory(BuildContext context, Factory factory) async {
+    final dialogResult = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Remove \"${factory.name}\""),
+              content: Text("Are you sure, that you want to remove \"${factory.name}\"?"),
+              actions: [
+                IconButton(onPressed: () => Navigator.pop(context, true), icon: const Icon(Icons.done)),
+                IconButton(onPressed: () => Navigator.pop(context, false), icon: const Icon(Icons.close))
+              ],
+            ));
+
+    if (dialogResult ?? false) {
+      if (context.mounted) {
+        Provider.of<FactoryDatabase>(context, listen: false).removeFactory(factory.name);
+        onRemoveFactory(factory.name);
+      }
     }
   }
 }

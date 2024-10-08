@@ -20,14 +20,18 @@ void main() {
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.fromSwatch(
+        primarySwatch: Colors.orange, brightness: Brightness.dark, backgroundColor: Colors.grey.shade900);
+
     return MaterialApp(
       title: 'Satisfactory Manager',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Colors.orange, brightness: Brightness.light, primary: Colors.orange),
+        colorScheme: colorScheme,
+        appBarTheme: AppBarTheme(backgroundColor: colorScheme.primary),
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(backgroundColor: colorScheme.surface, selectedItemColor: colorScheme.primary),
         useMaterial3: true,
         inputDecorationTheme: const InputDecorationTheme(border: OutlineInputBorder()),
       ),

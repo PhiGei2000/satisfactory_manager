@@ -31,11 +31,10 @@ class FactoryScreenState extends State<FactoryScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              child: FactoryList((name) => setState(() {
-                    selectedFactoryName = name;
-                  })),
+              child: FactoryList(onSelectFactory, onRemoveFactory),
             ),
             const VerticalDivider(),
             Expanded(
@@ -47,5 +46,17 @@ class FactoryScreenState extends State<FactoryScreen> {
       ),
       bottomNavigationBar: const FactoryManagerBottomNavigationBar(0),
     );
+  }
+
+  void onSelectFactory(String name) => setState(() {
+        selectedFactoryName = name;
+      });
+
+  void onRemoveFactory(String name) {
+    if (name == selectedFactoryName) {
+      setState(() {
+        selectedFactoryName = "";
+      });
+    }
   }
 }

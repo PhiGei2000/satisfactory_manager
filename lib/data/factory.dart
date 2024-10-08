@@ -24,4 +24,8 @@ class Factory {
   void addItem(Item item) {
     items[item.item] = item;
   }
+
+  void removeItem(Item item) {
+    items.remove(item.item);
+  }
 }

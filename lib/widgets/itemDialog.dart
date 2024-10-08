@@ -41,56 +41,44 @@ class ItemDialogState extends State<ItemDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
     return AlertDialog(
       title: Text(widget.title),
-      content: SizedBox(
-        width: 0.8 * screenSize.width,
-        height: 0.5 * screenSize.height,
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(children: [
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Autocomplete(
-                  optionsBuilder: (TextEditingValue textEditingValue) => ItemID.itemNames
-                      .where((element) => element.toLowerCase().contains(textEditingValue.text.toLowerCase())),
-                  fieldViewBuilder: (context, controller, focusNode, defaultBuilder) => TextField(
-                    decoration: const InputDecoration(labelText: "Item"),
-                    controller: controller,
-                    focusNode: focusNode,
-                  ),
-                  initialValue: item == null ? null : TextEditingValue(text: item.toString()),
-                  onSelected: (String value) => setState(() {
-                    item = ItemID.getItem(value);
-                  }),
-                )),
-            Row(children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(labelText: "Input rate"),
-                    controller: _consumptionController,
-                    validator: validateProductionNumbers,
-                  ),
+      content: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Autocomplete(
+                optionsBuilder: (TextEditingValue textEditingValue) => ItemID.itemNames
+                    .where((element) => element.toLowerCase().contains(textEditingValue.text.toLowerCase())),
+                fieldViewBuilder: (context, controller, focusNode, defaultBuilder) => TextField(
+                  decoration: const InputDecoration(labelText: "Item"),
+                  controller: controller,
+                  focusNode: focusNode,
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(labelText: "Output rate"),
-                    controller: _productionController,
-                    validator: validateProductionNumbers,
-                  ),
-                ),
-              ),
-            ]),
-          ]),
-        ),
+                initialValue: item == null ? null : TextEditingValue(text: item.toString()),
+                onSelected: (String value) => setState(() {
+                  item = ItemID.getItem(value);
+                }),
+              )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: const InputDecoration(labelText: "Input rate"),
+              controller: _consumptionController,
+              validator: validateProductionNumbers,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: const InputDecoration(labelText: "Output rate"),
+              controller: _productionController,
+              validator: validateProductionNumbers,
+            ),
+          ),
+        ]),
       ),
       actions: [
         IconButton(onPressed: submit, icon: const Icon(Icons.done)),

@@ -33,12 +33,14 @@ class TextDialogState extends State<TextDialog> {
 
     return AlertDialog(
       title: Text(widget.title),
-      content: SizedBox(
-        width: 0.8 * screenSize.width,
-        height: 0.5 * screenSize.height,
-        child: TextField(
-          controller: _textController,
-        ),
+      content:
+          // SizedBox(
+          //   width: 0.8 * screenSize.width,
+          //   height: 0.5 * screenSize.height,
+          //   child:
+          TextField(
+        controller: _textController,
+        // ),
       ),
       actions: [
         IconButton(onPressed: submit, icon: const Icon(Icons.done)),
