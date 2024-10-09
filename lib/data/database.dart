@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:satisfactory_manager/data/factory.dart';
 import 'package:satisfactory_manager/data/items.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class FactoryDatabase extends ChangeNotifier {
   late final Future<Database> _database;
@@ -16,7 +18,12 @@ class FactoryDatabase extends ChangeNotifier {
   FactoryDatabase() {
     _factories = [];
 
-    _database = openDatabase("satisfactory_manager.db", version: 1, onCreate: _initDatabase, onOpen: _loadData);
+    openFactoryDatabase();
+  }
+
+  Future<void> openFactoryDatabase() async {
+    final path = join((await getApplicationSupportDirectory()).path, "satisfactory_manager.db");
+    _database = openDatabase(path, version: 1, onCreate: _initDatabase, onOpen: _loadData);
   }
 
   void _initDatabase(Database db, int version) async {

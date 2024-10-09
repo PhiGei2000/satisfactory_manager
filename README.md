@@ -1,16 +1,11 @@
-# satisfactory_manager
+# Satisfactory Manager
 
-A new Flutter project.
+A small application that helps you keep track of factories you build in the game Satisfactory.
 
-## Getting Started
+![Factory Screen](images/factory_screen.png)
 
-This project is a starting point for a Flutter application.
+Simply add factories, their consumption and production to the app and get an overview of your total
+production.
 
-A few resources to get you started if this is your first Flutter project:
+![Logistics Screen](images/production_screen.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
