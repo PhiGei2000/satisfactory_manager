@@ -84,10 +84,11 @@ class FactoryItemListState extends State<FactoryItemList> {
 
     if (context.mounted) {
       final database = Provider.of<FactoryDatabase>(context, listen: false);
-      await database.addOrUpdateItem(widget.factoryName, newProduct);
 
       if (newProduct.item != product.item) {
         await database.removeItem(widget.factoryName, product);
+      } else {
+        await database.addOrUpdateItem(widget.factoryName, newProduct);
       }
     }
   }

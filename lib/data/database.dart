@@ -110,7 +110,7 @@ class FactoryDatabase extends ChangeNotifier {
     if (itemExists) {
       await _database.then((db) => db.update(
           "FactoryItems", {"itemID": item.item.index, "inputRate": item.inputRate, "outputRate": item.outputRate},
-          where: "factory = ?", whereArgs: [factoryName]));
+          where: "factory = ? AND itemID = ?", whereArgs: [factoryName, item.item.index]));
     } else {
       await _database.then((db) => db.insert("FactoryItems", {
             "itemID": item.item.index,
